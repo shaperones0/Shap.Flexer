@@ -68,7 +68,7 @@ namespace SampleStringSplitter
 
 ```
 ## Proper example: `.ini` parser
-Following code utilizes most of library potential. It parses given `.ini` file string into dictionary (simplified version, for comments and section support see More examples below)
+Following code utilizes most of library potential. It parses given `.ini` file string into dictionary (simplified version, for comments and section support see [More examples](#More-examples) below)
 <details>
 
 <summary>code is quite large</summary>
@@ -194,5 +194,5 @@ file = ""payroll.dat""".Replace("\r", "");
 
 ## More examples
 From `Examples/` folder:
-* Proper `.ini` parser: TODO link
-* Xml-like languages parser (with funky options): TODO link
+* Proper `.ini` parser: [Ini.cs](https://github.com/shaperones0/Shap.Flexer/blob/main/Examples/Shap.Flexer.Examples/Ini.cs)
+* Xml-like languages parser (with funky options): [Xml.cs](https://github.com/shaperones0/Shap.Flexer/blob/main/Examples/Shap.Flexer.Examples/Xml.cs)
