@@ -96,20 +96,6 @@ namespace Shap.Flexer
         public List<IAction<StateType, ItemType, ProcessorCtxType>> WhatToDoOnEnd() => endAction;
     }
 
-    public interface IAction<StateType, ItemType, ProcessorCtxType>
-        where StateType : Enum
-        where ItemType : notnull
-        where ProcessorCtxType : class
-    {
-        public StateType Act(StateType curState, IEnumerator<ItemType> input, ProcessorCtxType ctx);
-    }
-
-    public interface IItemClass<ItemType>
-        where ItemType : notnull
-    {
-        public bool Contains(ItemType item);
-    }
-
     internal class BetterEnumerator<ItemType> : IEnumerator<ItemType>
         where ItemType : notnull
     {

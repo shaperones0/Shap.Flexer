@@ -155,6 +155,11 @@
                 curList.Add(new ActionChangeState(state)); return this;
             }
 
+            public Rule Do(ActionCb<StateType, char, ProcessorCtx>.Cb action)
+            {
+                curList.Add(new ActionCb<StateType, char, ProcessorCtx>(action)); return this;
+            }
+
             public Rule Error(string? errorMessage = null)
             {
                 curList.Add(new ActionError(errorMessage)); return this;

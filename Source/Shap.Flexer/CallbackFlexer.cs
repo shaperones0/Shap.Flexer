@@ -19,8 +19,6 @@ namespace Shap.Flexer
         {
             List<IAction<StateType, ItemType, ProcessorCtxType>> curList = [];
 
-            public delegate StateType FlexerCallback(StateType curState, IEnumerator<ItemType> input, ProcessorCtxType ctx);
-
             public Rule When(ItemClassType itemClass)
             {
                 curList = AddClass(itemClass);
@@ -35,62 +33,27 @@ namespace Shap.Flexer
             
             public void WhenEndOk()
             {
-                AddEndAction().Add(new ActionNoop());
+                AddEndAction().Add(new ActionNoop<StateType, ItemType, ProcessorCtxType>());
             }
 
             public void WhenEndError(string? message = null)
             {
-                AddEndAction().Add(new ActionError(message));
+                AddEndAction().Add(new ActionError<StateType, ItemType, ProcessorCtxType>(message));
             }
 
-            public Rule Do(FlexerCallback cb)
+            public Rule Do(ActionCb<StateType, ItemType, ProcessorCtxType>.Cb cb)
             {
-                curList.Add(new ActionCb(cb)); return this;
+                curList.Add(new ActionCb<StateType, ItemType, ProcessorCtxType>(cb)); return this;
             }
 
             public Rule Next()
             {
-                curList.Add(new ActionNext()); return this;
+                curList.Add(new ActionNext<StateType, ItemType, ProcessorCtxType>()); return this;
             }
 
             public Rule Error(string? message = null)
             {
-                curList.Add(new ActionError(message)); return this;
-            }
-
-            class ActionCb(FlexerCallback cb) : IAction<StateType, ItemType, ProcessorCtxType>
-            {
-                public StateType Act(StateType curState, IEnumerator<ItemType> input, ProcessorCtxType ctx)
-                {
-                    return cb.Invoke(curState, input, ctx);
-                }
-            }
-
-            class ActionNoop : IAction<StateType, ItemType, ProcessorCtxType>
-            {
-                public StateType Act(StateType curState, IEnumerator<ItemType> input, ProcessorCtxType ctx)
-                {
-                    return curState;
-                }
-            }
-
-            class ActionNext : IAction<StateType, ItemType, ProcessorCtxType>
-            {
-                public StateType Act(StateType curState, IEnumerator<ItemType> input, ProcessorCtxType ctx)
-                {
-                    input.MoveNext();
-                    return curState;
-                }
-            }
-
-            class ActionError(string? errorMessage = null) : IAction<StateType, ItemType, ProcessorCtxType>
-            {
-                readonly string? errorMessage = errorMessage;
-
-                public StateType Act(StateType curState, IEnumerator<ItemType> input, ProcessorCtxType ctx)
-                {
-                    throw new Exception(errorMessage);
-                }
+                curList.Add(new ActionError<StateType, ItemType, ProcessorCtxType>(message)); return this;
             }
         }
 
